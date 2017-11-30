@@ -1,0 +1,52 @@
+---
+title: "2017final"
+author: "Yonatan Amzaleg"
+date: "November 30, 2017"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#__Current phase of TRGN 510 Project__ 
+
+My project description is to _call peaks_ for the binding of a mutant Estrogen Receptor in the presence and absense of E2. My steps were the following
+
+__1__ Rsync data from my personal computer af all fastq files (both conditions and their respective controls)
+
+__2__ using bowtie to align the _fastq_ files to a the reference genome _hg19_ and thereby converting it to _sam_ files
+
+________Example of bowtie code for one condition_________
+ ___Bash Script___ bowtie -S -m 1 -q hg19 LL02-68-ER-N_S14_L002_R1_001.fastq LL02-68-ER-N_S14_L002_R1_001.sam 
+ 
+ __3__ using samtools I merged all the sam files of the controls to one file. 
+ 
+  ___Bash Script___ samtools merge LL06-68plusE2-Input_S5_L001_R1_001.sam LL06-68plusE2-Input_S5_L002_R1_001.sam LL06-68plusE2-Input_S5_L003_R1_001.sam LL06-68plusE2-Input_S5_L004_R1_001.sam
+  
+__4__ Using MACS to actually produce bedfiles of _peaks_ at different places along the chromosme 
+Example of the script for _peak_ calling one replicate in one condition 
+______mergeERVehinput.sam______ is the combined input files
+
+ ___Bash Script___  macs14 -t LL02-68-ER-N_S14_L003_R1_001.sam -c mergeERVehinput.sam -n ERVeh_3 -g hs -B -S --call-subpeaks 
+ 
+ ______________________________________________________________________
+ 
+ This is where I currently stand in the project. To continue, I intend to use Bedtools to determine what the parameters of the peaks are along the genome. I do this by estabishing that a _peak_ is defined amongst the samples that overlap at least a certain percentage (the current thinking is 50%, but I'm not so sure yet)
+ 
+ Following this I could generate a graph of the _peaks_ along te genome of Vehicle vs Estradiol treament visually comparing where the _peaks_ are along all chromosomes. 
+ 
+ Perhaps I could then do a differential peak analysis, but this will probably be finished well after the assigned date and hence will not be part of the final project, per se.
+ 
+ 
+
+
+_________________________________________________________________________
+
+### Ciao!
+
+
+
+
+
